@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>详细页面</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <header class="container text-center">
+        <%- include('header')%>
+    </header>
+    <div class="wrapper">
+        <div class="container">
+            <div class="row">
+                <main>
+                    <div class="col-sm-12 col-md-8 myblog">
+                        <div class="blog-content col-md-12">
+                            <% if(locals.islogin) {%>
+                            <div class="text-right article-more-do">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-down"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="comt-del" href="#">删除</a></li>
+                                    <li><a href="#">...</a></li>
+                                </ul>
+
+                            </div>
+                            <% } %>
+                            <div class="text-left">
+                                <p class="lead"><span>#<%- list[0].title %>#</span></p>
+                                <div class="author">
+                                    <p><span><%- list[0].author%></span> 发布于
+                                        &nbsp;<time class="text-left"><%- list[0].date %>&nbsp;&nbsp;</time>
+                                        <span> <%- list[0].look %>&nbsp;次阅读</span>
+                                    </p>
+                                </div>
+                                <p class="lead"><%- list[0].content %></p>
+                            </div>
+                        <div class="text-left wrap-foot">
+                            留言<span class="count"></span>
+                        </div>
+                    </div>
+            </div>
+            </main>
+            <aside class="col-md-4 sidebar">
+                <div class="widget">
+                   <div class="person-info text-left col-sm-12">
+                        <div class="person-img">
+                            <img width="50" height="50" src="/img/<%- list[0].users.picture%>" class="img-circle" alt="">
+                            <span class="person-name">&nbsp;<%- list[0].users.name%></span>
+                            <a class="btn btn-warning">+ 关注</a>
+                        </div>
+                        <div class="person-msg">
+                            <p class="person-introduce">
+                                <span>简介：</span>
+                                <span><%- list[0].users.introduce%></span>
+                            </p>
+                            <p class="person-sex">
+                                <span>性别：</span>
+                                <span><%- list[0].users.sex%></span>
+                            </p>
+                        </div>
+                        <div class="person-list text-center">
+                            <ul>
+                                <li>
+                                    <span>原创</span><br>
+                                    <span class="makeself">0</span>
+                                </li>
+                                <li>
+                                    <span>粉丝</span><br>
+                                    <span>0</span>
+                                </li>
+                                    <li>
+                                    <span>关注</span><br>
+                                    <span>0</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-8 bg">
+                <div class="comment-send">
+
+                    <form class="form-horizontal">
+                        <input type="hidden" class="aid" name="aid" value="<%- list[0]._id %>">
+                        <% if(locals.islogin) {%>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <textarea class="form-control" placeholder="请输入评论内容..." name="content" rows="2"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10 text-right">
+                                <button type="submit" class="btn btn-warning" name="submit">评论</button>
+                            </div>
+                        </div>
+                        <% } else { %>
+
+                        <p class="lead">目前您尚未登录，请 <a href="/login">登录</a> 或 <a href="/regist">注册</a>
+                        后进行评论</p>
+
+                        <% } %>
+                    </form>
+
+                </div>
+
+                <div class="wrap-comment">
+                    <div class="commnet-content col-md-12">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery.min.1.12.4.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var id = $('.aid').val();
+
+        $('button[type = submit]').on('click', function(){
+            var cont = $('textarea').val();
+            $.ajax({
+                url: '/showarticle/addcomment',
+                dataType: 'json',
+                type: 'post',
+                data: {aid: id, cont: cont},
+                success: function(data){
+                    console.log(data);
+                }
+            });
+
+        });
+        // 加载评论
+        $.ajax({
+            url: '/showarticle/getcommet/' + id,
+            dataType: 'jsonp',
+            success: function(data){
+                $.each(data.comt,function(i){
+                    var comtMsg = '<div class="comment-info">' +
+                    '<div class="person-img">' +
+                    '<img width="40" height="40" src="/img/' + data.comt[i].users.picture + '" class="img-rounded ">' +
+                    '</div>' +
+                    '<div class="comt-text">' +
+                    '<p class="lead"><span class="author">' + data.comt[i].users.name + '</span>：<span class="cont">' + data.comt[i].content+ '</span></p>' +
+                    '</div>' +
+                    '<div class="wrap-foot text-right">' +
+                    '<time>' + data.comt[i].date+ '</time>' +
+                    '<a class="comt-del" href="#">删除</a></div>' +
+                    '</div>';
+                        $('.commnet-content').append(comtMsg);  // 加载评论内容
+                    });
+            }
+        });
+
+        // 取评论数
+        $.ajax({
+            url: '/showarticle/getimg/' + id,
+            dataType: 'jsonp',
+            success: function(data){
+                var comtcout = '<span>' + data + '</span>';
+                $('.wrap-foot>.count').replaceWith(comtcout);
+                // $('.blog-content .wrap-foot').append(comtcout);
+            }
+        });
+
+        // 删除评论
+
+        function delcomt(){
+            $('.wrap-foot a.comt-del').on('click', function(){
+                $.ajax({
+                    url: '/delcomment/' + id,
+                    dataType: 'jsonp',
+                    success: function(data){
+                        console.log(data);
+                    }
+                });
+            });
+        }
+
+        // 取文章发布数
+        $.ajax({
+            url: '/showarticle/getarticlecount/'+ id,
+            dataType: 'jsonp',
+            success: function(data){
+                var comtcout = '<span>' + data + '</span>';
+                $('.person-list li>span.makeself').replaceWith(comtcout);
+            }
+        });
+
+    });
+
+</script>
+</body>
+</html>

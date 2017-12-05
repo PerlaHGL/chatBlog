@@ -1,0 +1,238 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+body{
+	background: #F0F0F0;
+}
+.col-sm-12,
+.col-md-8,
+.col-md-12,
+.lead{
+	/* background: #fff; */
+}
+/*头部*/
+header h2{
+	font-size: 80px;
+}
+.wrap-head{
+	width: 100%;
+	border-bottom: 1px solid #FBFBFF;
+
+}
+#nav-banner ul>li:hover a{
+	color: orange;
+}
+
+/*注册*/
+.wrap-main{
+	margin-top: 100px;
+	max-width: 600px;
+	border:1px solid #FFEEDD;
+	background: #FFF3EE;
+	border-radius: 5px;
+	padding-top: 30px;
+}
+.has-error{
+	font-weight: normal;
+	margin-top: 5px;
+	font-size: 12px;
+	padding: 0;
+	padding-left: 15px;
+}
+.control-label>span{
+	color: red;
+}
+
+
+/*主页*/
+.wrapper{
+	margin-top: 100px;
+}
+
+.blog-content{
+	position: relative;
+}
+.blog-content .author span:nth-child(1){
+	margin: 0 5px 0 0;
+	color: #2894FF;
+}
+
+.blog-content .author{
+	color: #888;
+	font-size: 12px;
+}
+.blog-content .lead{
+	color: #222;
+	margin: 10px 0;
+}
+main .myblog,
+.blog-login{
+	background: #fff;
+	margin: 0 0 15px 0;
+	border-bottom: 1px solid #eee;
+	box-shadow: 0px 0px 2px #f2f1f1,
+				0px 1px 4px  #eee;
+	padding: 10px;
+	box-sizing: border-box;
+	height: auto;
+}
+
+.blog-head .person-info{
+	position: absolute;
+	border: 1px solid #eee;
+	border-radius: 3px;
+	padding: 5px;
+	width: 250px;
+	height: auto;
+	box-shadow: 0 1px 25px #ccc;
+	background: #fff;
+	z-index: 1001;
+	margin-top: 15px;
+	display: none;
+}
+
+.blog-head .person-info p>span{
+	font-size: 12px;
+}
+.blog-head .person-img>img{
+	margin: 0 auto;
+}
+.blog-head .person-info>span{
+	color: #fff;
+	position: absolute;
+	font-size: 25px;
+	top: -15px;
+	left: 10px;
+}
+.article_id{
+	visibility: hidden;
+}
+.blog-content .lead>span{
+	color: orange;
+	font-size: 18px;
+	margin-right: 10px;
+	font-weight: bold;
+}
+.blog-content .lead>span:hover{
+	text-decoration: underline;
+}
+.blog-content>.wrap-foot span{
+	font-size: 12px;
+}
+
+/*
+comment
+ */
+.bg{
+	height: auto;
+	font-size: 12px;
+	background: #fff;
+}
+.commnet-content{
+	padding-top: 15px;
+}
+.commnet-content .lead{
+	margin-bottom: 5px;
+}
+
+.comment-info .lead,.lead{
+	font-size: 14px;
+	cursor: pointer;
+}
+.comment-info .lead>.author{
+	color: orange;
+}
+
+.comment-send{
+	margin: 10px;
+}
+.comt-link{
+	margin: 10px 0;
+}
+.wrap-comment .person-img{
+	position: absolute;
+}
+.comt-text .lead>span:nth-child(1),.wrap-comment .wrap-foot{
+	padding-left: 50px;
+}
+.commnet-info,.wrap-comment .wrap-foot{
+	margin: 10px 0;
+	border-bottom: 1px dashed #bbb;
+}
+.wrap-foot{
+	color: #aaa;
+}
+.comment-info .wrap-foot .comt-del{
+	display: none;
+	right: 5px;
+	top: -5px;
+	position: absolute;
+}
+.article-more-do{
+	display: none;
+	left: 60px;
+	bottom: 0;
+	position: absolute;
+}
+
+.article-more-do span{
+	color: #666;
+}
+.article-more-do span:hover{
+	color: orange;
+}
+.article-more-do ul>li a:hover{
+	color: orange;
+}
+
+
+/*
+个人博客信息
+*/
+.person-list ul,
+.person-list li{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.widget .col-sm-12{
+	background: #fff;
+}
+.widget .person-info{
+	border:1px solid #eee;
+}
+.person-list li{
+	float: left;
+	width: 30%;
+}
+.widget .person-img{
+	padding: 10px 0 0 0;
+}
+.widget .person-img a{
+	position: absolute;
+	right: 10px;
+	top: 15px;
+	background: #fff;
+	color: orange;
+}
+
+.widget .person-msg{
+	padding: 0 0 0 35px;
+	border-bottom: 1px dashed #ccc;
+}
+.widget .person-img a:hover{
+	background: orange;
+	color: #fff;
+}
+
+.banner{
+	background: #F0F0F0;
+}
+.banner-title{
+	margin: 0 0 50px 0;
+}
+
+.blog-login{
+	padding: 30px;
+}

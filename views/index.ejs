@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>博客首页</title>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+</head>
+<body>
+  <header class="container text-center">
+   <%- include('header')%>
+ </header>
+ <div class="wrapper">
+   <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-12 banner">
+        <div class="banner-title">
+          <h2>MY CHATBLOG</h2>
+        </div>
+      </div>
+    </div>
+      <% if(list.length !== 0){%>
+      <main><% for(var i = 0, len = list.length; i < len; i++) {%>
+       <div class="col-sm-12 col-md-8 myblog">
+        <div class="blog-head col-md-1">
+         <div class="person-img">
+          <img width="50" height="50" src="img/<%- list[i].users.picture%>" class="img-circle ">
+        </div>
+        <div class="person-info text-center col-sm-12">
+          <span class="glyphicon glyphicon-triangle-top"></span>
+          <div class="person-img">
+            <img width="70" height="70" src="/img/<%- list[i].users.picture%>" class="img-circle" alt="">
+          </div>
+          <div class="person-msg">
+            <h4 class="person-name"><%- list[i].users.name%></h4>
+            <p class="person-introduce">
+              <span>简介：</span>
+              <span><%- list[i].users.introduce%></span>
+            </p>
+            <p class="person-sex">
+              <span>性别：</span>
+              <span><%- list[i].users.sex%></span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="blog-content col-md-11">
+        <input type="hidden" class="article_id" name="aid" value="<%- list[i]._id %>">
+        <div class="text-left">
+          <p class="lead"><span>#<%- list[i].title %>#</span></p>
+          <div class="author">
+            <p><span class="author-name"><%- list[i].author%></span> 发布于
+              &nbsp;<time class="text-left"><%- list[i].date %>&nbsp;&nbsp;</time>
+              <span> <%- list[i].look %>&nbsp;次阅读</span>
+            </p>
+          </div>
+          <p class="lead"><%- list[i].content %></p>
+        </div>
+        <div class="wrap-foot">
+         <span>留言 <%- list[i].count %></span>
+         <% if(locals.islogin) {%>
+         <div class="text-right article-more-do">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-down"></span></a>
+          <ul class="dropdown-menu">
+            <li><a class="comt-del" href="#">删除</a></li>
+            <li><a href="#">...</a></li>
+          </ul>
+        </div>
+        <% } %>
+      </div>
+    </div>
+
+  </div>
+
+  <% } %>
+</main>
+<% } else{%>
+<% if(locals.islogin) {%>
+<div class="wrapper">
+  <div class="container">
+    <div class="col-sm-12 col-md-12 blog-login">
+     <p class="lead">目前尚未发布有文章，<a href="/addarticle">去发布文章</a>
+     </p>
+   </div>
+ </div>
+</div>
+<% } else{%>
+
+<div class="wrapper">
+  <div class="container">
+    <div class="col-sm-12 col-md-12 blog-login">
+      <p class="lead">目前尚未发布有文章, 要发布文章，请 <a href="/login">登录</a> 或 <a href="/regist">注册</a>
+      </p>
+    </div>
+  </div>
+</div>
+<% } %>
+<%}%>
+<aside class="col-md-4 sidebar">
+  <div class="widget">
+
+  </div>
+</aside>
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="/js/jquery.min.1.12.4.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/show.js"></script>
+<script type="text/javascript">
+	$(function(){
+          // var id = $('.blog-content>.text-left');
+
+          var author = document.querySelectorAll('input[name = aid]');
+        $('.blog-content>.text-left').on('click', function(){  // 点击获取当前博文数据
+            var id = $(this).parent().find('.article_id').val();
+            location.href = "showarticle/" + id;   // 跳转到指定页面
+          });
+
+        $('a.comt-del').on('click', function(){		// 删除当前
+        	var aid = $(this).parent().siblings('.article_id').val();
+          console.log(aid);
+          var flag = confirm('确认删除？');
+          if(flag){
+                	location.href = '/addarticle/delarticle/' + aid; 	// 删除该博文
+                }
+              });
+
+        // 显示当前用户的删除操作
+      function showUD(){
+        var author = document.querySelectorAll('.author .author-name');
+        $.ajax({
+         url: '/addarticle/showUD/',
+         dataType: 'json',
+         success: function(data){
+          console.log(data);
+          $.each(author,function(i){
+           if(author[i].innerText === data[0].author){  // 判断文章作者是否为当前登录用户
+            $('.article-more-do').eq(i).show();
+            console.log('sh')
+          }
+        })
+        }
+      })
+      }
+      showUD();
+
+  });
+</script>
+</body>
+</html>

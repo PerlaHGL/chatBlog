@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户注册</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+<div class="wrap-head">
+    <%- include('header')%>
+</div>
+  <% if(locals.islogin) {%>
+<div class="wrapper">
+    <div class="container wrap-main">
+
+            <div class="form-group">
+                <label for="file_img" class="col-sm-2 control-label">上传头像</label>
+                <div class="col-sm-10">
+                    <img id="tar_img" width="50" height="50" src="/img/<%- list[0].picture %>" >
+                    <iframe src="" id="ifm" name="ifm" style="display: none;"></iframe>
+                    <form action="/regist/upimg" id="img" method="post" enctype="multipart/form-data" target="ifm">
+                        <input type="hidden" name="id" value="<%- list[0]._id %>">
+                        <p>
+                        <input type="file" name="file_img"><input type="submit" name="submit" value="上传" onclick="upSrc()">
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+        <form action="/regist/usermodify" method="post" class="form-horizontal" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<%- list[0]._id %>">
+            <div class="form-group">
+                <label for="userName" class="col-sm-2 control-label"><span>*</span> 用户名</label>
+                <div class="col-sm-6">
+                    <input type="text" name="userName" class="form-control" placeholder="用户名" value="<%- list[0].name %>">
+                </div>
+                <label class="col-sm-4 has-error"></label>
+            </div>
+
+            <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label">手机号</label>
+                <div class="col-sm-6">
+                    <input type="text" value="<%- list[0].phone %>" name="phone" class="form-control" placeholder="请输入手机号">
+                </div>
+                <label class="col-sm-4 has-error"></label>
+            </div>
+            <div class="form-group">
+                <label for="sex" class="col-sm-2 control-label">性别</label>
+                <% if(list[0].sex == "男") {%>
+                      <div class="col-sm-10">
+                    <input type="radio" name="sex" value="男" checked>男
+                    <input type="radio" name="sex" value="女">女
+                    <input type="radio" name="sex" value="保密">保密
+                </div>
+                <%} else{%>
+                    <% if(list[0].sex == "女") {%>
+                     <div class="col-sm-10">
+                        <input type="radio" name="sex" value="男">男
+                        <input type="radio" name="sex" value="女" checked>女
+                        <input type="radio" name="sex" value="保密">保密
+                    </div>
+                    <%} else {%>
+                        <div class="col-sm-10">
+                            <input type="radio" name="sex" value="男">男
+                            <input type="radio" name="sex" value="女">女
+                            <input type="radio" name="sex" value="保密" checked>保密
+                        </div>
+                    <%}%>
+                <%}%>  
+            </div>
+             <div class="form-group">
+                <label for="introduce" class="col-sm-2 control-label">个人简介</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" value="<%- list[0].introduce %>" placeholder="请输入简介..." name="introduce" rows="2"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <button type="submit" class="btn btn-warning btn-block" name="submit">确认修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<% } else{ %>
+<div class="wrapper">
+    <div class="container ">
+        <div class="col-sm-12 col-md-12 blog-login ">
+           <p class="lead">目前您尚未登录，请 <a href="/login">登录</a> 或 <a href="/regist">注册</a>
+           </p>
+       </div>
+   </div>
+</div>
+<% } %>
+<script type="text/javascript" src="/js/jquery.min.1.12.4.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var oF = document.forms[0];
+        oF.onsubmit = function(){
+            var userName = checkName();
+            var checkPwd = checkPwd();
+            var cPwd = confirmPwd();
+            var phone = checkPhone();
+            return userName && checkPwd && cPwd && phone;
+        };
+        // 检查用户名输入
+        oF.userName.onblur = checkName;
+        oF.userName.onfocus = function(){
+            // var tipMsg = "<span style='color: #999;'>请输入6-18位数字、字母、常用字符</span>";
+            var tipMsg = "<span style='color: #999;'>输入3-16位中文、字母、数字、下划线组成的用户名</span>";
+            $(this).parent().next().html(tipMsg);
+        };
+
+        function checkName(){
+            var reg = /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5]{3,16}$/;
+            if(oF.userName.value !== ""){
+                if(reg.test(oF.userName.value)){
+                    var tipMsg = "<span style='color: green;' class='glyphicon glyphicon-ok'></span>"
+                    $(this).parent().next().html(tipMsg);
+                    return true;
+                }else{
+                    var tipMsg = "<span style='color: red;'>输入3-16位中文、字母、数字、下划线组成的用户名</span>";
+                    $(this).parent().next().html(tipMsg);
+                    return false;
+                }
+            }else{
+                var tipMsg = "<span style='color: red;'>请输入用户名</span>";
+                    $(this).parent().next().html(tipMsg);
+                return false;
+            }
+        }
+
+        // 检验密码
+        oF.pwd.onblur = checkPwd;
+        oF.pwd.onfocus = function(){
+            var tipMsg = "<span style='color: #999;'>请输入6-18位数字、英文(区分大小写)</span>";
+            $(this).parent().next().html(tipMsg);
+        };
+        function checkPwd(){
+            var reg = /^[a-zA-Z0-9_-]{6,18}$/;
+            if(oF.pwd.value !== ""){
+                if(reg.test(oF.pwd.value)){
+                    var tipMsg = "<span style='color: green;' class='glyphicon glyphicon-ok'></span>"
+                    $(this).parent().next().html(tipMsg);
+                    return true;
+                }else{
+                    var tipMsg = "<span style='color: red;'>请输入6-18位数字、英文(区分大小写)</span>";
+                    $(this).parent().next().html(tipMsg);
+                    return false;
+                }
+            }else{
+                var tipMsg = "<span style='color: red;'>请输入密码</span>";
+                    $(this).parent().next().html(tipMsg);
+                return false;
+            }
+        }
+        //  二次验证密码
+        oF.pwd2.onblur = confirmPwd;
+        oF.pwd2.onfocus = function(){
+            var tipMsg = "<span style='color: #999;'>请输入确认密码</span>";
+            $(this).parent().next().html(tipMsg);
+        };
+        function confirmPwd(){
+            var reg = new RegExp(oF.pwd.value);
+            if(oF.pwd.value || oF.pwd2.value !==""){
+                if(reg.test(oF.pwd2.value)){
+                    var tipMsg = "<span style='color: green;' class='glyphicon glyphicon-ok'></span>"
+                    $(this).parent().next().html(tipMsg);
+                    return true;
+                }else{
+                    var tipMsg = "<span style='color: red;'>两次输入的密码不一致</span>";
+                    $(this).parent().next().html(tipMsg);
+                    return false;
+                }
+            }else{
+                var tipMsg = "<span style='color: red;'>请输入确认密码！</span>";
+                    $(this).parent().next().html(tipMsg);
+                return false;
+            }
+        }
+        // 校验手机号
+        oF.phone.onblur = checkPhone;
+        oF.phone.onfocus = function(){
+            var tipMsg = "<span style='color: #999;'>请输入手机号</span>";
+            $(this).parent().next().html(tipMsg);
+        };
+        function checkPhone(){
+            var reg = /^1[3|4|5|7|8][0-9]{9}$/;
+            if(oF.phone.value !== ""){
+                if(reg.test(oF.phone.value)){
+                    var tipMsg = "<span style='color: green;' class='glyphicon glyphicon-ok'></span>"
+                    $(this).parent().next().html(tipMsg);
+                    return true;
+                }else{
+                    var tipMsg = "<span style='color: red;'>手机格式输入不正确</span>";
+                    $(this).parent().next().html(tipMsg);
+                    return false;
+                }
+            }else{
+                var tipMsg = "<span style='color: red;'>请输入手机号</span>";
+                    $(this).parent().next().html(tipMsg);
+                return false;
+            }
+        }
+
+
+         function upSrc(){
+            var picSrc = window.parent.document.querySelector('#tar_img');
+         }
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+<div class="header navbar-fixed-top">
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-banner" aria-expanded="false">
+                 <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img alt="chatBlog" src="img/f.png"></a>
+			</div>
+			<div class="collapse navbar-collapse" id="nav-banner">
+				<ul class="nav navbar-nav navbar-right">
+						<li><a href="/"><span class="glyphicon glyphicon-home"></span>首页</a></li>
+					<% if( locals.islogin ) {%>
+                        <li><a href="/addarticle"><span class="glyphicon glyphicon-edit"></span></a></li>
+						<li><a href="/myblog">我的博客</a></li>
+						<li><a href="/loginout">退出</a></li>
+					<% }else{ %>
+						<li><a href="/login">登录</a></li>
+						<li><a href="/regist">注册</a></li>
+					<% }%>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</div>
