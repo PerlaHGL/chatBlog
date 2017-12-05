@@ -54,66 +54,10 @@
 </div>
 <script type="text/javascript" src="/js/jquery.min.1.12.4.js"></script>
 <script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/base.js"></script>
 <script type="text/javascript">
 	$(function(){
-		var oF = document.forms[0];
-		oF.onsubmit = function(){
-			var userName = checkName();
-			var checkPwd = checkPwd();
-			return userName && checkPwd;
-		};
-		// 检查用户名输入
-		oF.userName.onblur = checkName;
-		oF.userName.onfocus = function(){
-			// var tipMsg = "<span style='color: #999;'>请输入6-18位数字、字母、常用字符</span>";
-			var tipMsg = "<span style='color: #999;'>请输入用户名</span>";
-			$(this).parent().next().html(tipMsg);
-		};
-
-		function checkName(){
-			var reg = /^([a-z0-9_-]|[\u4E00-\u9FA5\uF900-\uFA2D]){3,16}$/;
-			if(oF.userName.value !== ""){
-				if(reg.test(oF.userName.value)){
-					var tipMsg = "<span style='color: green;' class='glyphicon glyphicon-ok'></span>"
-					$(this).parent().next().html(tipMsg);
-					return true;
-				}else{
-					var tipMsg = "<span style='color: red;'>用户名格式输入不正确</span>";
-					$(this).parent().next().html(tipMsg);
-					return false;
-				}
-			}else{
-				var tipMsg = "<span style='color: red;'>请输入用户名</span>";
-					$(this).parent().next().html(tipMsg);
-				return false;
-			}
-		}
-
-		// 检验密码
-		oF.pwd.onblur = checkPwd;
-		oF.pwd.onfocus = function(){
-			var tipMsg = "<span style='color: #999;'>请输入密码</span>";
-			$(this).parent().next().html(tipMsg);
-		};
-		function checkPwd(){
-			var reg = /^[a-zA-Z0-9_-]{6,18}$/;
-			if(oF.pwd.value !== ""){
-				if(reg.test(oF.pwd.value)){
-					var tipMsg = "<span style='color: green;' class='glyphicon glyphicon-ok'></span>"
-					$(this).parent().next().html(tipMsg);
-					return true;
-				}else{
-					var tipMsg = "<span style='color: red;'>密码输入不正确</span>";
-					$(this).parent().next().html(tipMsg);
-					return false;
-				}
-			}else{
-				var tipMsg = "<span style='color: red;'>请输入密码</span>";
-					$(this).parent().next().html(tipMsg);
-				return false;
-			}
-		}
-
+		eg.checkLogin();
 	});
 </script>
 </body>
