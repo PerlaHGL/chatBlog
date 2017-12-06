@@ -81,25 +81,6 @@ router.get('/getcommet/:id', function(req, res){
 });
 
 /*
-获取评论数
-*/
-router.get('/getimg/:id', function(req, res){
-	res.header("Access-Control-Allow-Origin", "*");
-	var id = req.params.id;
-	commentSchema.count({articleid: id}).exec(function(err, result){
-		if(err){
-			console.log('数据获取失败');
-		}
-		articleSchema.update({_id: id},{$set: {count: result}}, function(err){	//更新文章中的评论数
-			if(err){
-				console.log('评论数更新失败！');
-			}
-		});
-		res.jsonp(result);
-	});
-});
-
-/*
 获取文章发表数
 */
 

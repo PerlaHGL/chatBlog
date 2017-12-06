@@ -119,80 +119,18 @@
 </div>
 <script type="text/javascript" src="/js/jquery.min.1.12.4.js"></script>
 <script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/base.js"></script>
 <script type="text/javascript">
     $(function(){
         var id = $('.aid').val();
-
-        $('button[type = submit]').on('click', function(){
-            var cont = $('textarea').val();
-            $.ajax({
-                url: '/showarticle/addcomment',
-                dataType: 'json',
-                type: 'post',
-                data: {aid: id, cont: cont},
-                success: function(data){
-                    console.log(data);
-                }
-            });
-
-        });
-        // 加载评论
-        $.ajax({
-            url: '/showarticle/getcommet/' + id,
-            dataType: 'jsonp',
-            success: function(data){
-                $.each(data.comt,function(i){
-                    var comtMsg = '<div class="comment-info">' +
-                    '<div class="person-img">' +
-                    '<img width="40" height="40" src="/img/' + data.comt[i].users.picture + '" class="img-rounded ">' +
-                    '</div>' +
-                    '<div class="comt-text">' +
-                    '<p class="lead"><span class="author">' + data.comt[i].users.name + '</span>：<span class="cont">' + data.comt[i].content+ '</span></p>' +
-                    '</div>' +
-                    '<div class="wrap-foot text-right">' +
-                    '<time>' + data.comt[i].date+ '</time>' +
-                    '<a class="comt-del" href="#">删除</a></div>' +
-                    '</div>';
-                        $('.commnet-content').append(comtMsg);  // 加载评论内容
-                    });
-            }
-        });
-
-        // 取评论数
-        $.ajax({
-            url: '/showarticle/getimg/' + id,
-            dataType: 'jsonp',
-            success: function(data){
-                var comtcout = '<span>' + data + '</span>';
-                $('.wrap-foot>.count').replaceWith(comtcout);
-                // $('.blog-content .wrap-foot').append(comtcout);
-            }
-        });
+        eg.getAddComment(id);
+        eg.getComment(id);
 
         // 删除评论
 
-        function delcomt(){
-            $('.wrap-foot a.comt-del').on('click', function(){
-                $.ajax({
-                    url: '/delcomment/' + id,
-                    dataType: 'jsonp',
-                    success: function(data){
-                        console.log(data);
-                    }
-                });
-            });
-        }
-
-        // 取文章发布数
-        $.ajax({
-            url: '/showarticle/getarticlecount/'+ id,
-            dataType: 'jsonp',
-            success: function(data){
-                var comtcout = '<span>' + data + '</span>';
-                $('.person-list li>span.makeself').replaceWith(comtcout);
-            }
-        });
-
+        // 获取作者发布的文章数
+        eg.getArticleCount(id);
+ 
     });
 
 </script>

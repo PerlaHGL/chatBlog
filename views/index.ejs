@@ -114,41 +114,7 @@
 <script type="text/javascript">
 	$(function(){
           eg.getArticles();
-
-          var author = document.querySelectorAll('input[name = aid]');
-        // $('.blog-content>.text-left').on('click', function(){  // 点击获取当前博文数据
-        //     var id = $(this).parent().find('.article_id').val();
-        //     location.href = "showarticle/" + id;   // 跳转到指定页面
-        //   });
-
-      //   $('a.comt-del').on('click', function(){		// 删除当前
-      //   	var aid = $(this).parent().siblings('.article_id').val();
-      //     console.log(aid);
-      //     var flag = confirm('确认删除？');
-      //     if(flag){
-      //           	location.href = '/addarticle/delarticle/' + aid; 	// 删除该博文
-      //           }
-      //         });
-
-      //   // 显示当前用户的删除操作
-      // function showUD(){
-      //   var author = document.querySelectorAll('.author .author-name');
-      //   $.ajax({
-      //    url: '/addarticle/showUD/',
-      //    dataType: 'json',
-      //    success: function(data){
-      //     console.log(data);
-      //     $.each(author,function(i){
-      //      if(author[i].innerText === data[0].author){  // 判断文章作者是否为当前登录用户
-      //       $('.article-more-do').eq(i).show();
-      //       console.log('sh')
-      //     }
-      //   })
-      //   }
-      // })
-      // }
-      // showUD();
-
+          eg.getDelArticle();
   });
 </script>
 </body>

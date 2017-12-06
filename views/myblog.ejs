@@ -111,55 +111,17 @@
 <% } %>
 <script type="text/javascript" src="/js/jquery.min.1.12.4.js"></script>
 <script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/base.js"></script>
 <script type="text/javascript" src="/js/show.js"></script>
 <script type="text/javascript">
     $(function(){
-
-        $('.blog-content>.text-left').on('click', function(){  // 点击获取当前文章
-            var id = $(this).parent().find('.article_id').val();
-            location.href = "/showarticle/" + id;   // 跳转到指定页面
-        });
-
-        $('a.comt-del').on('click', function(){     // 删除当前
-            var aid = $(this).parent().siblings('.article_id').val();
-            console.log(aid);
-            var flag = confirm('确认删除？');
-            if(flag){
-                    location.href = 'delarticle/' + aid;    // 删除该博文
-                }
-            });
-
-        // 显示当前用户可操作博文
-
-         function showUD(){
-        var author = document.querySelectorAll('.author .author-name');
-        $.ajax({
-         url: '/addarticle/showUD/',
-         dataType: 'json',
-         success: function(data){
-          console.log(data);
-          $.each(author,function(i){
-           if(author[i].innerText === data[0].author){  // 判断文章作者是否为当前登录用户
-            $('.article-more-do').eq(i).show();
-            console.log('sh')
-          }
-        })
-        }
-      })
-      }
-        showUD();
-         // 取文章发布数
-          // var id = $('.aid').eq(1).val();
-          // console.log(id);
-        $.ajax({
-            url: '/showarticle/getarticlecount/'+ id,
-            dataType: 'jsonp',
-            success: function(data){
-              console.log(data)
-                var comtcout = '<span>' + data + '</span>';
-                $('.person-list li>span.makeself').replaceWith(comtcout);
-            }
-        });
+        // 获取文章
+        eg.getArticles();
+        // 删除文章
+        eg.getDelArticle();
+        // 获取发布文章数
+        var id = $('.article_id').eq(0).val();
+        eg.getArticleCount(id);
     });
 </script>
 </body>
